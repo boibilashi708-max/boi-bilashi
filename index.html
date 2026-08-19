@@ -156,31 +156,80 @@
         <h1>বই বিলাসী - অনলাইন বুক শপ</h1>
         <p>আপনার পছন্দের বই অর্ডার করুন খুব সহজেই</p>
     </section>
+<!-- লাইভ অটো-সাজেশন সার্চ বার (HTML + CSS + JS) -->
 <style>
   .search-container { padding: 20px 10px; display: flex; justify-content: center; }
-  .search-box { display: flex; align-items: center; background-color: #064038; border: 2px solid #FFD700; border-radius: 50px; padding: 5px 20px; width: 100%; max-width: 500px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
+  .search-wrapper { position: relative; width: 100%; max-width: 500px; }
+  .search-box { display: flex; align-items: center; background-color: #064038; border: 2px solid #FFD700; border-radius: 50px; padding: 5px 20px; }
   #searchInput { background: transparent; border: none; color: white; width: 100%; padding: 10px; font-size: 16px; outline: none; }
-  .search-icon { background: transparent; border: none; color: #FFD700; font-size: 18px; cursor: pointer; }
+  .search-icon { background: transparent; border: none; color: #FFD700; font-size: 18px; }
   #searchInput::placeholder { color: #a0c4c0; }
+  .suggestion-box { position: absolute; top: 100%; left: 0; right: 0; background-color: #064038; border: 1px solid #FFD700; border-radius: 15px; max-height: 250px; overflow-y: auto; z-index: 999; display: none; margin-top: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+  .suggestion-item { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid rgba(255, 215, 0, 0.2); cursor: pointer; color: white; }
+  .suggestion-item:hover { background-color: #0a5c51; }
+  .suggestion-item img { width: 40px; height: 55px; object-fit: cover; border-radius: 4px; margin-right: 12px; }
+  .suggestion-info h4 { margin: 0; font-size: 15px; color: #FFD700; }
+  .suggestion-info p { margin: 3px 0 0; font-size: 12px; color: #a0c4c0; }
 </style>
 
 <div class="search-container">
+  <div class="search-wrapper">
     <div class="search-box">
-        <input type="text" id="searchInput" onkeyup="searchBooks()" placeholder="বইয়ের নাম লিখুন...">
-        <button class="search-icon">🔍</button>
+      <input type="text" id="searchInput" oninput="showSuggestions()" placeholder="বই বা লেখকের নাম লিখুন..." autocomplete="off">
+      <button class="search-icon">🔍</button>
     </div>
+    <div id="suggestionBox" class="suggestion-box"></div>
+  </div>
 </div>
 
 <script>
-  function searchBooks() {
-    let input = document.getElementById('searchInput').value.toLowerCase();
-    let books = document.querySelectorAll('.card');
-    books.forEach(book => {
-      let text = book.textContent.toLowerCase();
-      book.style.display = text.includes(input) ? "" : "none";
-    });
+function showSuggestions() {
+  let input = document.getElementById('searchInput').value.toLowerCase().trim();
+  let suggestionBox = document.getElementById('suggestionBox');
+  let books = document.querySelectorAll('.card');
+  suggestionBox.innerHTML = '';
+
+  if (input === '') {
+    suggestionBox.style.display = 'none';
+    return;
   }
+
+  let matches = 0;
+  books.forEach(book => {
+    let title = book.querySelector('h3') ? book.querySelector('h3').textContent : '';
+    let author = book.querySelector('.author') ? book.querySelector('.author').textContent : '';
+    let imgSrc = book.querySelector('img') ? book.querySelector('img').src : '';
+
+    if (title.toLowerCase().includes(input) || author.toLowerCase().includes(input)) {
+      matches++;
+      let item = document.createElement('div');
+      item.className = 'suggestion-item';
+      item.innerHTML = `
+        <img src="${imgSrc}" alt="${title}">
+        <div class="suggestion-info">
+          <h4>${title}</h4>
+          <p>${author}</p>
+        </div>
+      `;
+      item.onclick = function() {
+        book.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        suggestionBox.style.display = 'none';
+        document.getElementById('searchInput').value = title;
+      };
+      suggestionBox.appendChild(item);
+    }
+  });
+  suggestionBox.style.display = matches > 0 ? 'block' : 'none';
+}
+
+document.addEventListener('click', function(e) {
+  let searchWrapper = document.querySelector('.search-wrapper');
+  if (searchWrapper && !searchWrapper.contains(e.target)) {
+    document.getElementById('suggestionBox').style.display = 'none';
+  }
+});
 </script>
+
     
     <!-- বইয়ের তালিকা -->
     <div class="container">
