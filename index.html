@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>বই বিলাসী</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f8f4ef;
+    color:#33251e;
+}
+
+/* Header */
+header{
+    background:#3b2920;
+    color:white;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:18px;
+}
+
+/* Hero */
+.hero{
+    text-align:center;
+    padding:70px 20px;
+    background:#ead9c7;
+}
+
+.hero h1{
+    font-size:45px;
+    margin:0 0 15px;
+}
+
+.hero p{
+    font-size:19px;
+}
+
+.button{
+    display:inline-block;
+    background:#795039;
+    color:white;
+    padding:13px 25px;
+    border-radius:25px;
+    text-decoration:none;
+    margin-top:15px;
+}
+
+/* Books */
+section{
+    padding:45px 6%;
+}
+
+.title{
+    text-align:center;
+    font-size:30px;
+    margin-bottom:30px;
+}
+
+.books{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:20px;
+}
+
+.book{
+    background:white;
+    padding:18px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.cover{
+    height:220px;
+    background:#e4d7cc;
+    border-radius:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:25px;
+    font-weight:bold;
+}
+
+.book h3{
+    margin:15px 0 8px;
+}
+
+.price{
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+/* Contact */
+.contact{
+    background:#3b2920;
+    color:white;
+    text-align:center;
+}
+
+/* Footer */
+footer{
+    background:#241914;
+    color:white;
+    text-align:center;
+    padding:18px;
+}
+
+/* Mobile */
+@media(max-width:650px){
+
+    header{
+        flex-direction:column;
+        gap:12px;
+    }
+
+    nav a{
+        margin:0 7px;
+    }
+
+    .hero h1{
+        font-size:36px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+📚 বই বিলাসী
+</div>
+
+<nav>
+<a href="#home">হোম</a>
+<a href="#books">বই</a>
+<a href="#contact">যোগাযোগ</a>
+</nav>
+
+</header>
+
+
+<section class="hero" id="home">
+
+<h1>বই বিলাসী</h1>
+
+<p>
+বইয়ের পাতায় খুঁজে নিন আপনার প্রিয় গল্প
+</p>
+
+<a class="button" href="#books">
+বই দেখুন
+</a>
+
+</section>
+
+
+<section id="books">
+
+<h2 class="title">
+📖 আমাদের বই
+</h2>
+
+<div class="books">
+
+<div class="book">
+
+<div class="cover">
+বই ১
+</div>
+
+<h3>
+আপনার বইয়ের নাম
+</h3>
+
+<div class="price">
+৳ ৩০০
+</div>
+
+<a class="button" href="#contact">
+অর্ডার করুন
+</a>
+
+</div>
+
+
+<div class="book">
+
+<div class="cover">
+বই ২
+</div>
+
+<h3>
+আপনার বইয়ের নাম
+</h3>
+
+<div class="price">
+৳ ৩৫০
+</div>
+
+<a class="button" href="#contact">
+অর্ডার করুন
+</a>
+
+</div>
+
+
+<div class="book">
+
+<div class="cover">
+বই ৩
+</div>
+
+<h3>
+আপনার বইয়ের নাম
+</h3>
+
+<div class="price">
+৳ ৪০০
+</div>
+
+<a class="button" href="#contact">
+অর্ডার করুন
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="contact" id="contact">
+
+<h2 class="title">
+📞 যোগাযোগ করুন
+</h2>
+
+<p>
+বই অর্ডার করতে আমাদের সঙ্গে যোগাযোগ করুন।
+</p>
+
+<p>
+📱 ফোন: আপনার ফোন নম্বর
+</p>
+
+<p>
+💬 WhatsApp: আপনার WhatsApp নম্বর
+</p>
+
+</section>
+
+
+<footer>
+
+© 2026 বই বিলাসী — সর্বস্বত্ব সংরক্ষিত
+
+</footer>
+
+</body>
+</html>
