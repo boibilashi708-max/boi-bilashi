@@ -4,302 +4,458 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>বই বিলাসী - Boi Bilashi Online Book Shop</title>
+    
+    <!-- গুগল ট্রান্সলেটর স্ক্রিপ্ট -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'bn',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --primary: #4a1525;
+            --secondary: #d97706;
+            --bg-color: #fbf9f5;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
         }
-        body {
-            background-color: #f8f9fa;
-            color: #333;
+
+        body.dark-mode {
+            --primary: #2d0b17;
+            --secondary: #f59e0b;
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --border-color: #333333;
         }
-        header {
-            background: #ffffff;
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 20px;
-            font-weight: bold;
-            color: #1a252f;
-        }
-        .logo img {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 2px solid #e0e0e0;
-        }
-        .hero {
-            text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            color: white;
-        }
-        .hero h1 {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-        .hero p {
-            color: #cbd5e1;
-            font-size: 15px;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 35px auto;
-            padding: 0 15px;
-        }
-        .section-title {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 24px;
-            color: #1e293b;
-        }
-        .book-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 25px;
-        }
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 18px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-            transition: transform 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        .card img {
-            width: 100%;
-            height: 280px;
-            object-fit: contain;
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 90px; transition: background 0.3s, color 0.3s; }
+
+        /* হেডার */
+        header { background: var(--primary); padding: 12px 15px; color: white; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        .logo { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: bold; color: #fef3c7; }
+        .logo img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
+        
+        /* সেটিংস আইকন ও ড্রপডাউন */
+        .settings-wrapper { position: relative; }
+        .settings-icon { background: none; border: none; font-size: 22px; cursor: pointer; color: white; }
+        .settings-dropdown {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            background-color: #f1f5f9;
-            margin-bottom: 12px;
+            padding: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            width: 180px;
+            text-align: left;
+            color: var(--text-color);
         }
-        .card h3 {
-            font-size: 18px;
-            color: #1e293b;
-            margin-bottom: 4px;
-        }
-        .author {
-            font-size: 14px;
-            color: #64748b;
-            margin-bottom: 10px;
-        }
-        .price {
-            font-size: 18px;
-            color: #d97706;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        .btn-group {
-            display: flex;
-            gap: 10px;
-        }
-        .btn {
-            flex: 1;
-            padding: 10px 0;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: bold;
-            text-align: center;
-            display: inline-block;
-        }
-        .btn-call {
-            background-color: #0284c7;
-            color: white;
-        }
-        .btn-wa {
-            background-color: #25D366;
-            color: white;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: #0f172a;
-            color: #94a3b8;
-            font-size: 14px;
-            margin-top: 50px;
-        }
+        .settings-dropdown.show { display: block; }
+        .set-btn { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); cursor: pointer; font-size: 12px; font-weight: bold; text-align: left; }
+        
+        #google_translate_element { margin-bottom: 8px; font-size: 12px; }
+        .goog-te-gadget-simple { background-color: var(--bg-color) !important; border: 1px solid var(--border-color) !important; padding: 4px !important; border-radius: 4px !important; width: 100%; }
+
+        /* হিরো সেকশন */
+        .hero { text-align: center; padding: 25px 15px; background: #faf4ed; border-bottom: 1px solid #eaded0; color: #333; }
+        body.dark-mode .hero { background: #1a1a1a; border-color: #333; color: #fff; }
+        .hero h1 { font-size: 22px; color: var(--primary); margin-bottom: 5px; }
+        body.dark-mode .hero h1 { color: #f59e0b; }
+        .hero p { font-size: 13px; opacity: 0.8; margin-bottom: 15px; }
+
+        /* সার্চ বার */
+        .search-wrapper { position: relative; max-width: 350px; margin: 0 auto; }
+        .search-box { display: flex; align-items: center; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 4px 12px; }
+        #searchInput { border: none; outline: none; width: 100%; padding: 6px; font-size: 13px; background: transparent; color: var(--text-color); }
+        .btn-order-now { background: var(--primary); color: white; border: none; width: 100%; padding: 8px; border-radius: 20px; margin-top: 8px; font-weight: bold; cursor: pointer; font-size: 13px; }
+
+        .suggestion-box { position: absolute; top: 100%; left: 0; right: 0; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; max-height: 200px; overflow-y: auto; z-index: 999; display: none; text-align: left; }
+        .suggestion-item { display: flex; align-items: center; padding: 8px; border-bottom: 1px solid var(--border-color); cursor: pointer; color: var(--text-color); }
+        .suggestion-item img { width: 30px; height: 40px; margin-right: 10px; border-radius: 3px; }
+
+        /* গ্রিড ও কার্ড লেআউট */
+        .container { max-width: 900px; margin: 20px auto; padding: 0 10px; }
+        .section-title { text-align: center; font-size: 18px; color: var(--primary); margin-bottom: 20px; }
+        body.dark-mode .section-title { color: #f59e0b; }
+        .book-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+
+        /* পাশাপাশি কার্ড */
+        .card { background: var(--card-bg); border-radius: 10px; padding: 10px; border: 1px solid var(--border-color); display: flex; gap: 12px; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+        .card-img-wrapper { position: relative; width: 90px; height: 120px; flex-shrink: 0; }
+        .card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+
+        .card-details { flex-grow: 1; text-align: left; }
+        .card-details h3 { font-size: 15px; margin-bottom: 2px; }
+        .author { font-size: 12px; opacity: 0.7; margin-bottom: 6px; }
+        
+        .price-box { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+        .current-price { font-size: 16px; font-weight: bold; color: var(--primary); }
+        body.dark-mode .current-price { color: #f59e0b; }
+        .old-price { font-size: 12px; opacity: 0.5; text-decoration: line-through; }
+        .badge { background: #fef3c7; color: #d97706; font-size: 10px; padding: 2px 5px; border-radius: 4px; font-weight: bold; display: none; }
+
+        .btn-cart { background: var(--bg-color); border: 1px solid var(--border-color); width: 100%; padding: 6px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; color: var(--text-color); display: flex; align-items: center; justify-content: center; gap: 4px; }
+
+        /* ফ্লোটিং চ্যাট ও কল বাটন */
+        .floating-contact { position: fixed; bottom: 75px; right: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 998; }
+        .float-btn { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; font-size: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .float-call { background-color: #0284c7; }
+        .float-wa { background-color: #25D366; }
+
+        /* ফ্লোটিং কার্ট বার */
+        .cart-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--primary); color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 997; }
+        .cart-bar button { background: var(--secondary); color: white; border: none; padding: 8px 15px; border-radius: 15px; font-weight: bold; cursor: pointer; }
+
+        /* পপ-আপ মোডাল */
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1001; justify-content:center; align-items:center; }
+        .modal-content { background:var(--card-bg); color:var(--text-color); padding:20px; border-radius:10px; width:90%; max-width:400px; text-align:left; max-height:85vh; overflow-y:auto; }
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 3px; }
+        .form-group input, .form-group select { width: 100%; padding: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 5px; font-size: 13px; }
     </style>
 </head>
 <body>
 
-    <!-- হেডার ও লোগো -->
+    <!-- হেডার -->
     <header>
         <div class="logo">
-            <img src="FB_IMG_1787108130027.jpg" alt="বই বিলাসী লোগো">
+            <img src="FB_IMG_1787108130027.jpg" alt="বই বিলাসী">
             <span>বই বিলাসী</span>
+        </div>
+
+        <!-- সেটিংস আইকন -->
+        <div class="settings-wrapper">
+            <button class="settings-icon" onclick="toggleSettings()">⚙️</button>
+            <div id="settingsMenu" class="settings-dropdown">
+                <p style="font-size: 12px; font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">সেটিংস</p>
+                <div id="google_translate_element"></div>
+                <button onclick="toggleDarkMode()" class="set-btn" style="margin-bottom:5px;">🌙 রাত মোড</button>
+                <button onclick="openInfoModal('deliveryModal')" class="set-btn" style="margin-bottom:5px;">🚚 ডেলিভারি নিয়মাবলী</button>
+                <button onclick="openInfoModal('helpModal')" class="set-btn">📞 হেল্পলাইন</button>
+            </div>
         </div>
     </header>
 
-    <!-- ব্যানার -->
+    <!-- হিরো সেকশন -->
     <section class="hero">
         <h1>বই বিলাসী - অনলাইন বুক শপ</h1>
         <p>আপনার পছন্দের বই অর্ডার করুন খুব সহজেই</p>
-    </section>
-<!-- লাইভ অটো-সাজেশন সার্চ বার (HTML + CSS + JS) -->
-<style>
-  .search-container { padding: 20px 10px; display: flex; justify-content: center; }
-  .search-wrapper { position: relative; width: 100%; max-width: 500px; }
-  .search-box { display: flex; align-items: center; background-color: #064038; border: 2px solid #FFD700; border-radius: 50px; padding: 5px 20px; }
-  #searchInput { background: transparent; border: none; color: white; width: 100%; padding: 10px; font-size: 16px; outline: none; }
-  .search-icon { background: transparent; border: none; color: #FFD700; font-size: 18px; }
-  #searchInput::placeholder { color: #a0c4c0; }
-  .suggestion-box { position: absolute; top: 100%; left: 0; right: 0; background-color: #064038; border: 1px solid #FFD700; border-radius: 15px; max-height: 250px; overflow-y: auto; z-index: 999; display: none; margin-top: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-  .suggestion-item { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid rgba(255, 215, 0, 0.2); cursor: pointer; color: white; }
-  .suggestion-item:hover { background-color: #0a5c51; }
-  .suggestion-item img { width: 40px; height: 55px; object-fit: cover; border-radius: 4px; margin-right: 12px; }
-  .suggestion-info h4 { margin: 0; font-size: 15px; color: #FFD700; }
-  .suggestion-info p { margin: 3px 0 0; font-size: 12px; color: #a0c4c0; }
-</style>
-
-<div class="search-container">
-  <div class="search-wrapper">
-    <div class="search-box">
-      <input type="text" id="searchInput" oninput="showSuggestions()" placeholder="বই বা লেখকের নাম লিখুন..." autocomplete="off">
-      <button class="search-icon">🔍</button>
-    </div>
-    <div id="suggestionBox" class="suggestion-box"></div>
-  </div>
-</div>
-
-<script>
-function showSuggestions() {
-  let input = document.getElementById('searchInput').value.toLowerCase().trim();
-  let suggestionBox = document.getElementById('suggestionBox');
-  let books = document.querySelectorAll('.card');
-  suggestionBox.innerHTML = '';
-
-  if (input === '') {
-    suggestionBox.style.display = 'none';
-    return;
-  }
-
-  let matches = 0;
-  books.forEach(book => {
-    let title = book.querySelector('h3') ? book.querySelector('h3').textContent : '';
-    let author = book.querySelector('.author') ? book.querySelector('.author').textContent : '';
-    let imgSrc = book.querySelector('img') ? book.querySelector('img').src : '';
-
-    if (title.toLowerCase().includes(input) || author.toLowerCase().includes(input)) {
-      matches++;
-      let item = document.createElement('div');
-      item.className = 'suggestion-item';
-      item.innerHTML = `
-        <img src="${imgSrc}" alt="${title}">
-        <div class="suggestion-info">
-          <h4>${title}</h4>
-          <p>${author}</p>
+        <div class="search-wrapper">
+            <div class="search-box">
+                <input type="text" id="searchInput" oninput="showSuggestions()" placeholder="বই বা লেখার নাম লিখুন..." autocomplete="off">
+                🔍
+            </div>
+            <div id="suggestionBox" class="suggestion-box"></div>
+            <button class="btn-order-now" onclick="openOrderModal()">এখনই অর্ডার করুন ❯</button>
         </div>
-      `;
-      item.onclick = function() {
-        book.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        suggestionBox.style.display = 'none';
-        document.getElementById('searchInput').value = title;
-      };
-      suggestionBox.appendChild(item);
-    }
-  });
-  suggestionBox.style.display = matches > 0 ? 'block' : 'none';
-}
+    </section>
 
-document.addEventListener('click', function(e) {
-  let searchWrapper = document.querySelector('.search-wrapper');
-  if (searchWrapper && !searchWrapper.contains(e.target)) {
-    document.getElementById('suggestionBox').style.display = 'none';
-  }
-});
-</script>
-
-    
     <!-- বইয়ের তালিকা -->
     <div class="container">
-        <h2 class="section-title">📚 আমাদের বইসমূহ</h2>
-        
+        <h2 class="section-title">─── 📚 আমাদের বইসমূহ ───</h2>
         <div class="book-grid">
             
             <!-- বই ১: প্যারাডক্সিক্যাল সাজিদ ১ -->
             <div class="card">
-                <div>
+                <div class="card-img-wrapper">
                     <img src="Book 1 x (1) .jpg" alt="প্যারাডক্সিক্যাল সাজিদ ১">
-                    <h3>প্যারাডক্সিক্যাল সাজিদ ১</h3>
-
-  
-                    <p class="author">আরিফ আজাদ</p>
-                    <div class="price">৳ ২৫০</div>
                 </div>
-                <div class="btn-group">
-                    <a href="tel:01352225843" class="btn btn-call">কল করুন</a>
-                    <a href="https://wa.me/8801352225843" class="btn btn-wa">হোয়াটসঅ্যাপ</a>
+                <div class="card-details">
+                    <h3>প্যারাডক্সিক্যাল সাজিদ ১</h3>
+                    <p class="author">আরিফ আজাদ</p>
+                    <div class="price-box" data-old="" data-current="250">
+                        <span class="current-price">৳ ২৫০</span>
+                        <span class="old-price">মূল দাম</span>
+                        <span class="badge"></span>
+                    </div>
+                    <button class="btn-cart" onclick="addToCart('প্যারাডক্সিক্যাল সাজিদ ১', 250)">🛒 কার্টে যোগ করুন</button>
                 </div>
             </div>
 
             <!-- বই ২: প্যারাডক্সিক্যাল সাজিদ ২ -->
             <div class="card">
-                <div>
+                <div class="card-img-wrapper">
                     <img src="Book 2x (1) .jpg" alt="প্যারাডক্সিক্যাল সাজিদ ২">
+                </div>
+                <div class="card-details">
                     <h3>প্যারাডক্সিক্যাল সাজিদ ২</h3>
                     <p class="author">আরিফ আজাদ</p>
-                    <div class="price">৳ ৩১১</div>
-                </div>
-                <div class="btn-group">
-                    <a href="tel:01352225843" class="btn btn-call">কল করুন</a>
-                    <a href="https://wa.me/8801352225843" class="btn btn-wa">হোয়াটসঅ্যাপ</a>
+                    <div class="price-box" data-old="" data-current="311">
+                        <span class="current-price">৳ ৩১১</span>
+                        <span class="old-price">মূল দাম</span>
+                        <span class="badge"></span>
+                    </div>
+                    <button class="btn-cart" onclick="addToCart('প্যারাডক্সিক্যাল সাজিদ ২', 311)">🛒 কার্টে যোগ করুন</button>
                 </div>
             </div>
 
             <!-- বই ৩: লাভ ক্যান্ডি -->
             <div class="card">
-                <div>
+                <div class="card-img-wrapper">
                     <img src="Book 3 (1).jpg" alt="লাভ ক্যান্ডি">
+                </div>
+                <div class="card-details">
                     <h3>লাভ ক্যান্ডি</h3>
                     <p class="author">জাফর বিপী</p>
-                    <div class="price">৳ ২৩৯</div>
-                </div>
-                <div class="btn-group">
-                    <a href="tel:01352225843" class="btn btn-call">কল করুন</a>
-                    <a href="https://wa.me/8801352225843" class="btn btn-wa">হোয়াটসঅ্যাপ</a>
+                    <div class="price-box" data-old="" data-current="239">
+                        <span class="current-price">৳ ২৩৯</span>
+                        <span class="old-price">মূল দাম</span>
+                        <span class="badge"></span>
+                    </div>
+                    <button class="btn-cart" onclick="addToCart('লাভ ক্যান্ডি', 239)">🛒 কার্টে যোগ করুন</button>
                 </div>
             </div>
+
             <!-- বই ৪: আমৃত্যু ভালোবাসি তোকে -->
             <div class="card">
-                <div>
+                <div class="card-img-wrapper">
                     <img src="book 4 .jpg" alt="আমৃত্যু ভালোবাসি তোকে">
+                </div>
+                <div class="card-details">
                     <h3>আমৃত্যু ভালোবাসি তোকে</h3>
                     <p class="author">সালমা চৌধুরী</p>
-                    <div class="price">৳ ৪৫৯</div>
-                </div>
-                <div class="btn-group">
-                    <a href="tel:01352225843" class="btn btn-call">কল করুন</a>
-                    <a href="https://wa.me/8801352225843" class="btn btn-wa">হোয়াটসঅ্যাপ</a>
+                    <div class="price-box" data-old="" data-current="459">
+                        <span class="current-price">৳ ৪৫৯</span>
+                        <span class="old-price">মূল দাম</span>
+                        <span class="badge"></span>
+                    </div>
+                    <button class="btn-cart" onclick="addToCart('আমৃত্যু ভালোবাসি তোকে', 459)">🛒 কার্টে যোগ করুন</button>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <footer>
-        &copy; বই বিলাসী - সর্বস্বত্ব সংরক্ষিত।
-    </footer>
+    <!-- ফ্লোটিং বাটন -->
+    <div class="floating-contact">
+        <a href="https://wa.me/8801352225843" target="_blank" class="float-btn float-wa" title="হোয়াটসঅ্যাপে চ্যাট করুন">💬</a>
+        <a href="tel:01352225843" class="float-btn float-call" title="সরাসরি কল করুন">📞</a>
+    </div>
 
+    <!-- ফ্লোটিং কার্ট বার -->
+    <div class="cart-bar" id="cartBar">
+        <div>🛒 কার্ট: <span id="cartCount">০</span> টি | মোট: <span id="cartTotal">৳ ০</span></div>
+        <button onclick="openOrderModal()">অর্ডার করুন</button>
+    </div>
+
+    <!-- অর্ডার ফর্ম মোডাল -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <h3 style="margin-bottom:12px; color:var(--primary);">🛍️ অর্ডার নিশ্চিত করুন</h3>
+            <div id="orderItems" style="font-size:12px; margin-bottom:10px;"></div>
+            <form onsubmit="sendWhatsAppOrder(event)">
+                <div class="form-group">
+                    <label>আপনার নাম:</label>
+                    <input type="text" id="custName" required placeholder="নাম লিখুন">
+                </div>
+                <div class="form-group">
+                    <label>ফোন নম্বর:</label>
+                    <input type="tel" id="custPhone" required placeholder="01XXXXXXXXX">
+                </div>
+                <div class="form-group">
+                    <label>পূর্ণাঙ্গ ঠিকানা:</label>
+                    <input type="text" id="custAddress" required placeholder="জেলা, থানা ও এলাকার নাম">
+                </div>
+                <div class="form-group">
+                    <label>ডেলিভারি এলাকা:</label>
+                    <select id="deliveryArea" onchange="updateDeliveryCharge()">
+                        <option value="60">ঢাকার ভেতরে (৳৬০)</option>
+                        <option value="120">ঢাকার বাইরে (৳১২০)</option>
+                    </select>
+                </div>
+                <div style="font-weight:bold; font-size:14px; margin:12px 0;">সর্বমোট মূল্য: ৳ <span id="grandTotal">০</span></div>
+                <button type="submit" style="background:var(--primary); color:white; border:none; width:100%; padding:10px; border-radius:5px; font-weight:bold; cursor:pointer;">অর্ডার নিশ্চিত করুন (WhatsApp)</button>
+                <button type="button" onclick="closeOrderModal()" style="background:#ccc; color:#333; border:none; width:100%; padding:6px; border-radius:5px; margin-top:6px; cursor:pointer;">বন্ধ করুন</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- তথ্য জানার মোডাল -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <h3 id="infoModalTitle" style="margin-bottom:12px; color:var(--primary);"></h3>
+            <div id="infoModalBody" style="font-size:13px; line-height:1.6;"></div>
+            <button onclick="closeInfoModal()" style="margin-top:15px; width:100%; padding:8px; border:none; border-radius:5px; background:var(--primary); color:white; font-weight:bold; cursor:pointer;">বন্ধ করুন</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+
+        // অটোমেটিক ডিসকাউন্ট হিসাব
+        function calculateDiscounts() {
+            document.querySelectorAll('.price-box').forEach(box => {
+                let oldPrice = parseFloat(box.getAttribute('data-old'));
+                let currentPrice = parseFloat(box.getAttribute('data-current'));
+                let badge = box.querySelector('.badge');
+
+                if (oldPrice && currentPrice && oldPrice > currentPrice) {
+                    let discount = Math.round(((oldPrice - currentPrice) / oldPrice) * 100);
+                    badge.innerText = discount + '% ছাড়';
+                    badge.style.display = 'inline-block';
+                } else {
+                    badge.style.display = 'none';
+                }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', calculateDiscounts);
+
+        // কার্ট ফাংশন
+        function addToCart(title, price) {
+            cart.push({ title, price });
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            document.getElementById('cartCount').innerText = cart.length;
+            let total = cart.reduce((sum, item) => sum + item.price, 0);
+            document.getElementById('cartTotal').innerText = '৳ ' + total;
+        }
+
+        function openOrderModal() {
+            if(cart.length === 0) {
+                alert('অনুগ্রহ করে অন্তত একটি বই কার্টে যোগ করুন।');
+                return;
+            }
+            let itemsHtml = cart.map((item, i) => `<div style="border-bottom: 1px solid var(--border-color); padding: 4px 0;">${i+1}. ${item.title} - ৳${item.price}</div>`).join('');
+            document.getElementById('orderItems').innerHTML = itemsHtml;
+            updateDeliveryCharge();
+            document.getElementById('orderModal').style.display = 'flex';
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        function updateDeliveryCharge() {
+            let charge = parseInt(document.getElementById('deliveryArea').value);
+            let subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+            document.getElementById('grandTotal').innerText = subtotal + charge;
+        }
+
+        function sendWhatsAppOrder(e) {
+            e.preventDefault();
+            let name = document.getElementById('custName').value;
+            let phone = document.getElementById('custPhone').value;
+            let address = document.getElementById('custAddress').value;
+            let charge = parseInt(document.getElementById('deliveryArea').value);
+            
+            let bookList = cart.map((item, i) => `${i+1}. ${item.title} (৳${item.price})`).join('%0A');
+            let subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+
+            let message = `*নতুন অর্ডার (বই বিলাসী)*%0A%0A` +
+                          `*বইয়ের তালিকা:*%0A${bookList}%0A%0A` +
+                          `*বইয়ের মোট:* ৳${subtotal}%0A` +
+                          `*ডেলিভারি চার্জ:* ৳${charge}%0A` +
+                          `*সর্বমোট মূল্য:* ৳${subtotal + charge}%0A%0A` +
+                          `👤 *নাম:* ${name}%0A` +
+                          `📞 *ফোন:* ${phone}%0A` +
+                          `🏠 *ঠিকানা:* ${address}`;
+
+            window.open(`https://wa.me/8801762525708?text=${message}`, '_blank');
+            closeOrderModal();
+            cart = [];
+            updateCartUI();
+        }
+
+        function showSuggestions() {
+            let input = document.getElementById('searchInput').value.toLowerCase().trim();
+            let suggestionBox = document.getElementById('suggestionBox');
+            let books = document.querySelectorAll('.card');
+            suggestionBox.innerHTML = '';
+
+            if (input === '') {
+                suggestionBox.style.display = 'none';
+                return;
+            }
+
+            let matches = 0;
+            books.forEach(book => {
+                let title = book.querySelector('h3') ? book.querySelector('h3').textContent : '';
+                let imgSrc = book.querySelector('img') ? book.querySelector('img').src : '';
+
+                if (title.toLowerCase().includes(input)) {
+                    matches++;
+                    let item = document.createElement('div');
+                    item.className = 'suggestion-item';
+                    item.innerHTML = `<img src="${imgSrc}"><div><strong>${title}</strong></div>`;
+                    item.onclick = function() {
+                        book.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        suggestionBox.style.display = 'none';
+                        document.getElementById('searchInput').value = title;
+                    };
+                    suggestionBox.appendChild(item);
+                }
+            });
+            suggestionBox.style.display = matches > 0 ? 'block' : 'none';
+        }
+
+        function toggleSettings() {
+            document.getElementById("settingsMenu").classList.toggle("show");
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            toggleSettings();
+        }
+
+        function openInfoModal(type) {
+            let modal = document.getElementById('infoModal');
+            let title = document.getElementById('infoModalTitle');
+            let body = document.getElementById('infoModalBody');
+
+            if(type === 'deliveryModal') {
+                title.innerText = "🚚 ডেলিভারি নিয়মাবলী";
+                body.innerHTML = `
+                    <p style="margin-bottom:8px;"><b>📦 'বই বিলাসী' ডেলিভারি চার্জ:</b></p>
+                    <ul style="margin-left:20px; margin-bottom:12px;">
+                        <li><b>ঢাকার ভেতরে:</b> ৳৬০ (২৪ - ৪৮ ঘণ্টা)</li>
+                        <li><b>ঢাকার বাইরে:</b> ৳১২০ (২ - ৩ দিন)</li>
+                    </ul>
+                    <p style="margin-bottom:5px;"><b>📌 বিশেষ নিয়মাবলী:</b></p>
+                    <ul style="margin-left:20px; color:#666;">
+                        <li>বই হাতে পেয়ে চেক করে টাকা পরিশোধের সুবিধা।</li>
+                        <li>বইয়ে কোনো ত্রুটি বা ড্যামেজ থাকলে সাথে সাথে পরিবর্তনের সুযোগ রয়েছে।</li>
+                    </ul>
+                `;
+            } else if(type === 'helpModal') {
+                title.innerText = "📞 হেল্পলাইন ও সাপোর্ট";
+                body.innerHTML = `
+                    <p style="margin-bottom:10px;">আপনার যেকোনো প্রশ্নের জন্য আমাদের সাথে যোগাযোগ করতে পারেন:</p>
+                    <div style="background:var(--bg-color); padding:10px; border-radius:6px; line-height:1.8;">
+                        📞 <b>সরাসরি কল:</b> <a href="tel:01352225843">01352225843</a><br>
+                        💬 <b>চ্যাট সাপোর্ট (WhatsApp):</b> <a href="https://wa.me/8801352225843">01352225843</a><br>
+                        📦 <b>অর্ডার সাপোর্ট (WhatsApp):</b> <a href="https://wa.me/8801762525708">01762525708</a>
+                    </div>
+                    <p style="margin-top:10px; font-size:11px; opacity:0.8;">⏰ সেবা মিলবে: প্রতিদিন সকাল ৯:০০ - রাত ১০:০০</p>
+                `;
+            }
+            
+            modal.style.display = "flex";
+            document.getElementById("settingsMenu").classList.remove("show");
+        }
+
+        function closeInfoModal() {
+            document.getElementById('infoModal').style.display = "none";
+        }
+
+        document.addEventListener('click', function(e) {
+            let settings = document.querySelector('.settings-wrapper');
+            if (settings && !settings.contains(e.target)) {
+                document.getElementById("settingsMenu").classList.remove("show");
+            }
+        });
+    </script>
 </body>
 </html>
